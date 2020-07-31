@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather App</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<main class="main-container">
+
+  <div class="location-and-date">
+    <div class="header-holder">
+      <h1 class="location-and-date__location">{{address}} {{message}}</h1>
+      {{date}}
+    </div>
+    <div class="searchbar-holder">
+      <div class="search-container">
+        <form action="{% url 'search-result' %}" method="post">
+          {% csrf_token %}
+          <input type="text" placeholder="search city..." name="search" value = {{address}}>
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+ 
+
+  <div class="current-temperature">
+    <div class="current-temperature__icon-container">
+      <img src= {{current_weather_desc_small}} class="current-temperature__icon" alt="">
+    </div>
+    <div class="current-temperature__content-container">
+      <div class="current-temperature__value">{{current_temp}}&deg;</div>
+      <div class="current-temperature__summary">{{current_weather_desc}}</div>
+    </div>
+  </div>
+
+
+  <div class="current-stats">
+    <div>
+      <div class="current-stats__value">{{crnt_temp_high}}&deg;</div>
+      <div class="current-stats__label">High</div>
+      <div class="current-stats__value">{{crnt_temp_low}}&deg;</div>
+      <div class="current-stats__label">Low</div>
+    </div>
+    <div>
+      <div class="current-stats__value">{{wind_speed}}mph</div>
+      <div class="current-stats__label">Wind</div>
+      <div class="current-stats__value">{{uv_index}}</div>
+      <div class="current-stats__label">UV Index</div>
+    </div>
+
+    <!-- section for sunrise sunset data -->
+    {% comment %} <div>
+      <div class="current-stats__value">05:27</div>
+      <div class="current-stats__label">Sunrise</div>
+      <div class="current-stats__value">20:57</div>
+      <div class="current-stats__label">Sunset</div>
+    </div> {% endcomment %}
+  </div>
+
+  <!-- ready to use hourly weather card with mobile optimized css. 
+  Just uncomment it, it will run smooth -->
+
+  {% comment %} <div class="weather-by-hour">
+    <h2 class="weather-by-hour__heading">Today's weather</h2>
+    <div class="weather-by-hour__container">
+      <div class="weather-by-hour__item">
+        <div class="weather-by-hour__hour">3am</div>
+        <img src="{% static 'icons/mostly-sunny.svg' %}" alt="Mostly sunny">
+        <div>14&deg;</div>
+      </div>
+    </div>
+  </div> {% endcomment %}
+
+
+
+<!-- 7days weather forcast  -->
+  <div class="next-5-days">
+    <h2 class="next-5-days__heading">Next 7 days</h2> 
+    <!-- for loop which loops 7 time -->
+    {% for list in daily_weather %}
+      <div class="next-5-days__container">
+        <div class="next-5-days__row">
+            <div class="next-5-days__date">
+              {{list.5}}
+              {% comment %} <div class="next-5-days__label">30/7</div> {% endcomment %}
+            </div>
+
+            <div class="next-5-days__low">
+              {{list.1}}&deg;
+              <div class="next-5-days__label">Low</div>
+            </div>
+
+            <div class="next-5-days__high">
+              {{list.0}}&deg;
+              <div class="next-5-days__label">High</div>
+            </div>
+
+            <div class="next-5-days__icon">
+              <img src= {{list.4}} alt="{{list.6}}">
+            </div>
+
+            <div class="next-5-days__rain">
+              {{list.3}}
+              <div class="next-5-days__label">UV Index</div>
+            </div>
+
+            <div class="next-5-days__wind">
+              {{list.2}}mph
+              <div class="next-5-days__label">Wind</div>
+            </div>
+        </div>
+      </div>
+    {% endfor %} 
+  </div>
+
+<!-- footer credit and github repo link... -->
+  <div class="footer-credits">
+  <p>Made with ❤️ by <a href="https://github.com/SazanDawadi/"><strong>Sazan Dawadi</strong></a></p>
+  </div>
+
+</main>
+
+</body>
+
+<!-- css style to change background acc. to weather condition -->
+<style>
+  body {
+    background: linear-gradient(to bottom, rgb({{rb.0}},{{rb.1}},{{rb.2}}) 0%, rgb({{rb.3}},{{rb.4}},{{rb.5}}) 100%);
+
+  }
+</style>
+
+<!-- End of my code but you can make any changes as you want and make this project your
+ own.........Thank you :) ...... -->
+</html>
