@@ -1,6 +1,7 @@
 # Weather-Forcasting-Web-App
 This is a django based webapp which displays current weather condition and 7 days weather
 forecast in beautiful design.It uses Open Weather api to fetch the weather data.
+You can see it's live demo [here](https://weather-forecast-app-py.herokuapp.com/).
 
 ## Desktop web version
 
